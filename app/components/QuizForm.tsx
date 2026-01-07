@@ -24,6 +24,8 @@ const ABANDON_OPTIONS = [
   "Comunidad tóxica"
 ];
 
+const DISCORD_INVITE = "https://discord.gg/DYJaxBFXxP";
+
 export default function QuizForm() {
   const [loading, setLoading] = useState(false);
   const [okMsg, setOkMsg] = useState<string | null>(null);
@@ -264,8 +266,35 @@ export default function QuizForm() {
         {loading ? "Guardando…" : "Unirme como Founder"}
       </button>
 
-      {okMsg && <div className="small success">{okMsg}</div>}
+      {okMsg && (
+  <div className="grid" style={{ gap: 10 }}>
+    <div className="small success">{okMsg}</div>
+
+    <a
+      href={DISCORD_INVITE}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="btn"
+      style={{
+        textAlign: "center",
+        background: "rgba(88, 101, 242, 0.15)",
+        borderColor: "rgba(88, 101, 242, 0.4)"
+      }}
+      onClick={() => {
+        fetch("/api/event", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ event: "join_discord_clicked" })
+        });
+      }}
+    >
+      Unirme a la comunidad (Discord)
+    </a>
+  </div>
+)}
+
       {errMsg && <div className="small error">{errMsg}</div>}
     </form>
   );
 }
+
